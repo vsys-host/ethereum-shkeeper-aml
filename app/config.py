@@ -60,6 +60,7 @@ config = {
     'MIN_TRANSFER_THRESHOLD': Decimal(os.environ.get('MIN_TRANSFER_THRESHOLD', '0.001')),
     'MIN_TOKEN_TRANSFER_THRESHOLD': Decimal(os.environ.get('MIN_TOKEN_TRANSFER_THRESHOLD', '0.5')),
     'FORCE_ADD_WALLETS_TO_DB': os.environ.get('FORCE_ADD_WALLETS_TO_DB', 'False'), # make 'True' to force moving wallets from geth storage to DB
+    'EXTERNAL_DRAIN_CONFIG': os.environ.get('EXTERNAL_DRAIN_CONFIG', False), # disabled by default, need to have format below
 #     'EXTERNAL_DRAIN_CONFIG': {
 #                                 "regular_split": {
 #                                   "state": "enabled", # enabled or disabled
@@ -223,6 +224,7 @@ config = {
 # },
 
 }
+
 
 def get_min_token_transfer_threshold(symbol):
     return config['TOKENS'][config['CURRENT_ETH_NETWORK']][symbol].get('min_transfer_threshold', config['MIN_TOKEN_TRANSFER_THRESHOLD'])

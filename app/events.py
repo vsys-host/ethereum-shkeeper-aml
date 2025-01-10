@@ -152,12 +152,12 @@ def log_loop(last_checked_block, check_interval):
                                                       transaction['to'], 
                                                       w3.fromWei(transaction["value"], "ether"), 
                                                       'ETH')
-                            if ((w3.eth.block_number - x) < 40) and ('EXTERNAL_DRAIN_CONFIG' in config):
+                            if ((w3.eth.block_number - x) < 40) and (config['EXTERNAL_DRAIN_CONFIG']):
                                # check addresses and transactions no earlier than 5 minutes after the first transaction's confirmation to be sure the data is updated in AMLBot.
                                external_drain_account.apply_async(args=['ETH', transaction['to'], transaction['hash'].hex()], countdown=320)
                         elif ((transaction['to'] in list_accounts and 
                              transaction['from'] == coin_inst.get_fee_deposit_account()) and
-                             'EXTERNAL_DRAIN_CONFIG' in config):
+                             config['EXTERNAL_DRAIN_CONFIG']):
                             add_transaction_to_db(transaction['hash'].hex(), 
                                                   transaction['to'], 
                                                   w3.fromWei(transaction["value"], "ether"), 
@@ -174,7 +174,7 @@ def log_loop(last_checked_block, check_interval):
                             if ((token_instance.provider.toChecksumAddress(transaction['from']) not in list_accounts and 
                                 token_instance.provider.toChecksumAddress(transaction['to']) in list_accounts) and 
                                 token_instance.provider.toChecksumAddress(transaction['to']) != token_instance.get_fee_deposit_account() and
-                                'EXTERNAL_DRAIN_CONFIG' in config):
+                                config['EXTERNAL_DRAIN_CONFIG']):
                                 tx_amount = Decimal(transaction["amount"]) / Decimal(10** (token_instance.contract.functions.decimals().call()))
                                 add_transaction_to_db(transaction['txid'], 
                                                              token_instance.provider.toChecksumAddress(transaction['to']), 

@@ -167,7 +167,7 @@ def refresh_balances():
 @celery.task(bind=True)
 @skip_if_running
 def drain_account(self, symbol, account):
-    if 'EXTERNAL_DRAIN_CONFIG' in config:
+    if config['EXTERNAL_DRAIN_CONFIG']:
         logger.warning('EXTERNAL_DRAIN_CONFIG is in config, drain to main account is disabled.')
         return "Disabled"
     logger.warning(f"Start draining from account {account} crypto {symbol}")
@@ -414,7 +414,7 @@ def setup_periodic_tasks(sender, **kwargs):
 
     # Update cached account balances
     sender.add_periodic_task(int(config['UPDATE_TOKEN_BALANCES_EVERY_SECONDS']), refresh_balances.s())
-    if 'EXTERNAL_DRAIN_CONFIG' in config:
+    if config['EXTERNAL_DRAIN_CONFIG']:
         sender.add_periodic_task(int(config['RECHECK_TXS_EVERY_SECONDS']), recheck_transactions.s())
 
 

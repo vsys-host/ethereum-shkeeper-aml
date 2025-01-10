@@ -3,7 +3,7 @@ import hashlib
 
 from .config import config
 
-if ('EXTERNAL_DRAIN_CONFIG' in config and
+if (config['EXTERNAL_DRAIN_CONFIG'] and
     (config['EXTERNAL_DRAIN_CONFIG']['aml_check']['state'] == 'enabled')):
     ACCESS_URL = config['EXTERNAL_DRAIN_CONFIG']['aml_check']['access_point']
     ACCESS_KEY = config['EXTERNAL_DRAIN_CONFIG']['aml_check']['access_key']
